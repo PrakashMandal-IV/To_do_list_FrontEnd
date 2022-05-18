@@ -53,6 +53,8 @@ loginform.addEventListener('submit', function (e) {
         return response.text()
     }).then(function (text) {
        CreateCookie(text)
+       getlist()
+       GetUser()
     })
 })
 //fuction to create cookie
@@ -112,11 +114,6 @@ RegForn.addEventListener('submit', function (e) {
 })
 
 //Main File
-if(document.cookie != "")
-{
-getlist()
-GetUser()
-}
 //list calling
 Datenow()//date set calling
 //function for getting today date
