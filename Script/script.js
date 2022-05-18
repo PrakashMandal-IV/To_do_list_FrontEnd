@@ -1,7 +1,11 @@
-let token;
+let token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiU3ByaW5nIiwiZXhwIjoxNjUyOTc5NzEzfQ.-vPuCNiUu2dnfSZ2FWkKZldOqZO8r2E8fh5TIw3FATA"
 //end points 
 const Loginurl = 'http://localhost:5003/Controller/login'
 const RegUrl = 'http://localhost:5003/Controller/register-user'
+const tasklisturl = 'http://localhost:5003/Controller/get-today-task'
+const addtask = 'http://localhost:5003/Controller/add-task'
+const deleteTaskurl = "http://localhost:5003/Controller/delete-task/"
+const changestatusurl = "http://localhost:5003/Controller/update-status/"
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e) {
@@ -29,7 +33,7 @@ loginform.addEventListener('submit', function (e) {
         }
         else {
             token = response.text()
-        }   
+        }
     }).then(function (text) {
 
     })
@@ -58,7 +62,7 @@ RegForn.addEventListener('submit', function (e) {
         "firstName": `${firstname}`,
         "lastName": `${lastname}`,
         "password": `${password}`
-    }  
+    }
     fetch(RegUrl, {
         method: 'POST',
         headers: {
@@ -67,9 +71,8 @@ RegForn.addEventListener('submit', function (e) {
             'Content-Type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify(regdata)
-    }).then(function (response){
-        if(response.status == 200)
-        {
+    }).then(function (response) {
+        if (response.status == 200) {
             alert("Successfully Registers , please login!")
             document.getElementById('regpanel').style.display = "none"
             document.getElementById('logpanel').style.display = "block"
@@ -79,3 +82,134 @@ RegForn.addEventListener('submit', function (e) {
 })
 
 //Main File
+getlist() //list calling
+Datenow()//date set calling
+//function for getting today date
+function Datenow()
+{
+var today = new Date();
+var datetoday = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+date = `Today's Task ${datetoday}`
+document.getElementById('todaydate').innerHTML = date
+}
+//fetch task list
+function getlist() {
+
+    fetch(tasklisturl, {
+        method: 'GET',
+        headers: {
+            'Authorization': "bearer " + token,
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+    }).then(function (response) {
+        return response.json()
+    }).then(function (text) {
+        tasklist(text)
+
+    })
+}
+//function to populate task list
+function tasklist(data) {
+    var list = document.getElementById('TaskList')
+    for (var i in data) {
+        title = data[i].title
+        task = data[i].whatToDo
+        id = data[i].id
+        taskstatus = data[i].isCompleted
+        if (taskstatus) {
+            showStatus = "Done"
+            btnwork = "disabled"
+        }
+        else {
+            showStatus = "Pending"
+            btnwork = ""
+        }
+        var Task = ` <td>${title}</td>
+        <td>${task}</td>
+        <td><button type="button" class="btn"  id="status${i}"value="${id}" onclick="ChangeStatus(this.id)"  btnwork> ${showStatus}</button></td>
+        <td><button type="button" class="btn" id="delete${i}"value="${id}" onclick="DeleteTask(this.id)"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
+        `
+        list.innerHTML += Task
+    }
+}
+//function to add task
+function AddTask() {
+    title = document.getElementById('tasktitle').value
+    task = document.getElementById('tasktodo').value
+    if (title == "") {
+        document.getElementById('tasktitle').style.border = "1px solid red"
+    }
+    else if (task == "") {
+        document.getElementById('tasktodo').style.border = "1px solid red"
+    }
+    else {
+        document.getElementById('tasktitle').value = ""
+        document.getElementById('tasktodo').value = ""
+        data = {
+
+            title: `${title}`,
+            whatToDo: `${task}`
+        }
+        fetch(addtask, {
+            method: "POST",
+            headers: {
+                'Authorization': "bearer " + token,
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify(data)
+        }).then (function (response){
+            if(response.status == 200)
+            {           
+                document.getElementById('TaskList').innerHTML = null
+                getlist()
+            }
+            else{
+                // redirect to login page
+            }
+        })
+    }
+}
+function DeleteTask(id){
+ taskId = document.getElementById(id).value
+ urlbyid = deleteTaskurl+taskId
+ fetch(urlbyid,{
+     method: "DELETE",
+     headers: {
+        'Authorization': "bearer " + token,
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+        'Content-Type': 'application/json; charset=UTF-8'
+     }
+ }).then(function (response){
+     if(response.status == 200)
+     {
+        document.getElementById('TaskList').innerHTML = null
+        getlist()
+     }
+ })
+}
+
+//function to update status
+function ChangeStatus(id)
+{
+    taskId = document.getElementById(id).value
+    urlbyid = changestatusurl+taskId
+    fetch(urlbyid,{
+        method: "PUT",
+        headers: {
+           'Authorization': "bearer " + token,
+           "Access-Control-Allow-Headers": "*",
+           "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+           'Content-Type': 'application/json; charset=UTF-8'
+        }
+    }).then(function (response) {
+        if(response.status == 200)
+        {
+            document.getElementById(id).innerHTML = "Done"
+        }
+    })
+}

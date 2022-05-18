@@ -53,6 +53,7 @@
     margin-left: 10pt;
     font-size: 16pt;
 }
+
 .trashicon{
     width: 20pt;
     height: 20pt;
@@ -60,6 +61,14 @@
 .btn{
     border: none;
     background: none;
+}
+
+
+
+@media screen and (max-width: 850px)  {
+    .MainPage{
+        width: 100%;
+    }
 }
 
 
