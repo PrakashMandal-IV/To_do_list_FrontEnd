@@ -3,6 +3,7 @@ let token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWF
 const Loginurl = 'http://localhost:5003/Controller/login'
 const RegUrl = 'http://localhost:5003/Controller/register-user'
 const tasklisturl = 'http://localhost:5003/Controller/get-today-task'
+const addtask = 'http://localhost:5003/Controller/add-task'
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e) {
@@ -81,39 +82,34 @@ RegForn.addEventListener('submit', function (e) {
 //Main File
 getlist() //list calling
 //fetch task list
-function getlist()
-{
+function getlist() {
 
-fetch(tasklisturl, {
-    method: 'GET',
-    headers: {
-        'Authorization': "bearer "+token,
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
-        'Content-Type': 'application/json; charset=UTF-8'
-    },
-}).then(function (response) {
-    return response.json()
-}).then(function (text) {
-  tasklist(text)
+    fetch(tasklisturl, {
+        method: 'GET',
+        headers: {
+            'Authorization': "bearer " + token,
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+    }).then(function (response) {
+        return response.json()
+    }).then(function (text) {
+        tasklist(text)
 
-})
+    })
 }
-
 //function to populate task list
-function tasklist(data)
-{
+function tasklist(data) {
     var list = document.getElementById('TaskList')
-    for(var i in data)
-    {
+    for (var i in data) {
         title = data[i].title
         task = data[i].whatToDo
         taskstatus = data[i].isCompleted
-        if(taskstatus)
-        {
+        if (taskstatus) {
             showStatus = "Done"
         }
-        else{
+        else {
             showStatus = "Pending"
         }
         var Task = ` <td>${title}</td>
@@ -121,6 +117,48 @@ function tasklist(data)
         <td><button type="button" class="btn">${showStatus}</button></td>
         <td><button type="button" class="btn"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
         `
-        list.innerHTML +=Task
+        list.innerHTML += Task
+    }
+}
+
+
+
+//function to add task
+function AddTask() {
+    title = document.getElementById('tasktitle').value
+    task = document.getElementById('tasktodo').value
+    if (title == "") {
+        document.getElementById('tasktitle').style.border = "1px solid red"
+    }
+    else if (task == "") {
+        document.getElementById('tasktodo').style.border = "1px solid red"
+    }
+    else {
+        document.getElementById('tasktitle').value = ""
+        document.getElementById('tasktodo').value = ""
+        data = {
+
+            title: `${title}`,
+            whatToDo: `${task}`
+        }
+        fetch(addtask, {
+            method: "POST",
+            headers: {
+                'Authorization': "bearer " + token,
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify(data)
+        }).then (function (response){
+            if(response.status == 200)
+            {           
+                document.getElementById('TaskList').innerHTML = null
+                getlist()
+            }
+            else{
+                // redirect to login page
+            }
+        })
     }
 }
