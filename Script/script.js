@@ -19,6 +19,7 @@ const tasklisturl = 'http://localhost:5003/Controller/get-today-task'
 const addtask = 'http://localhost:5003/Controller/add-task'
 const deleteTaskurl = "http://localhost:5003/Controller/delete-task/"
 const changestatusurl = "http://localhost:5003/Controller/update-status/"
+const getuerurl = "http://localhost:5003/Controller/get-user"
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e) {
@@ -114,6 +115,7 @@ RegForn.addEventListener('submit', function (e) {
 if(document.cookie != "")
 {
 getlist()
+GetUser()
 }
 //list calling
 Datenow()//date set calling
@@ -166,6 +168,23 @@ function tasklist(data) {
         `
         list.innerHTML += Task
     }
+}
+//function to get user name
+function GetUser()
+{
+    fetch(getuerurl,{
+        method: "GET",
+        headers: {
+            'Authorization': "bearer " + document.cookie,
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    }).then(function(response){
+        return response.json()
+    }).then(function (text){
+        document.getElementById("greetuser").innerHTML = "Welcome, "+text.firstName+" "+text.lastName
+    })
 }
 //function to add task
 function AddTask() {
