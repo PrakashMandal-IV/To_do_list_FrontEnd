@@ -27,8 +27,31 @@
     margin-left: 20pt;
     font-size: 18pt;
 }
-
-
-
+.addtask{
+    margin-top: 10pt;
+    margin-left: 20pt;
+    font-size: 16pt;
+}
+.Task{
+    margin-left: 10pt;
+    height: 24pt;
+}
+#tasktitle{
+    width: 15vw;
+}
+#tasktodo{
+    width: 30vw;
+}
+#addtaskbtn{
+    height: 27pt;
+    width: Auto;
+    border: none;
+    font-size: 16pt;
+}
+.taskTimeLine{
+    margin-top: 10pt;
+    margin-left: 10pt;
+    font-size: 16pt;
+}
 
 
