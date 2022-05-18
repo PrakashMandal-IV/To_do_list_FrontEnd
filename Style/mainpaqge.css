@@ -9,6 +9,19 @@
     margin-right: auto;
     height: auto;
     width: 60vw;
-    border-radius: 6px;
     box-shadow: 2px 2px 4px #000000;
 }
+.content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.title{
+    text-align: center;
+    font-size: 24pt;
+}
+
+
+
+
+
