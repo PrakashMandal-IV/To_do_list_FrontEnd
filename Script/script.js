@@ -1,7 +1,8 @@
-let token;
+let token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiU3ByaW5nIiwiZXhwIjoxNjUyOTc5NzEzfQ.-vPuCNiUu2dnfSZ2FWkKZldOqZO8r2E8fh5TIw3FATA"
 //end points 
 const Loginurl = 'http://localhost:5003/Controller/login'
 const RegUrl = 'http://localhost:5003/Controller/register-user'
+const tasklisturl = 'http://localhost:5003/Controller/get-today-task'
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e) {
@@ -29,7 +30,7 @@ loginform.addEventListener('submit', function (e) {
         }
         else {
             token = response.text()
-        }   
+        }
     }).then(function (text) {
 
     })
@@ -58,7 +59,7 @@ RegForn.addEventListener('submit', function (e) {
         "firstName": `${firstname}`,
         "lastName": `${lastname}`,
         "password": `${password}`
-    }  
+    }
     fetch(RegUrl, {
         method: 'POST',
         headers: {
@@ -67,9 +68,8 @@ RegForn.addEventListener('submit', function (e) {
             'Content-Type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify(regdata)
-    }).then(function (response){
-        if(response.status == 200)
-        {
+    }).then(function (response) {
+        if (response.status == 200) {
             alert("Successfully Registers , please login!")
             document.getElementById('regpanel').style.display = "none"
             document.getElementById('logpanel').style.display = "block"
@@ -79,3 +79,48 @@ RegForn.addEventListener('submit', function (e) {
 })
 
 //Main File
+getlist() //list calling
+//fetch task list
+function getlist()
+{
+
+fetch(tasklisturl, {
+    method: 'GET',
+    headers: {
+        'Authorization': "bearer "+token,
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+        'Content-Type': 'application/json; charset=UTF-8'
+    },
+}).then(function (response) {
+    return response.json()
+}).then(function (text) {
+  tasklist(text)
+
+})
+}
+
+//function to populate task list
+function tasklist(data)
+{
+    var list = document.getElementById('TaskList')
+    for(var i in data)
+    {
+        title = data[i].title
+        task = data[i].whatToDo
+        taskstatus = data[i].isCompleted
+        if(taskstatus)
+        {
+            showStatus = "Done"
+        }
+        else{
+            showStatus = "Pending"
+        }
+        var Task = ` <td>${title}</td>
+        <td>${task}</td>
+        <td><button type="button" class="btn">${showStatus}</button></td>
+        <td><button type="button" class="btn"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
+        `
+        list.innerHTML +=Task
+    }
+}
