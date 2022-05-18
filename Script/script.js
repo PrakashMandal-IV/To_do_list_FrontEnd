@@ -4,6 +4,7 @@ const Loginurl = 'http://localhost:5003/Controller/login'
 const RegUrl = 'http://localhost:5003/Controller/register-user'
 const tasklisturl = 'http://localhost:5003/Controller/get-today-task'
 const addtask = 'http://localhost:5003/Controller/add-task'
+const deleteTaskurl = "http://localhost:5003/Controller/delete-task/"
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e) {
@@ -105,6 +106,7 @@ function tasklist(data) {
     for (var i in data) {
         title = data[i].title
         task = data[i].whatToDo
+        id = data[i].id
         taskstatus = data[i].isCompleted
         if (taskstatus) {
             showStatus = "Done"
@@ -115,14 +117,11 @@ function tasklist(data) {
         var Task = ` <td>${title}</td>
         <td>${task}</td>
         <td><button type="button" class="btn">${showStatus}</button></td>
-        <td><button type="button" class="btn"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
+        <td><button type="button" class="btn" id="${i}"value="${id}" onclick="DeleteTask(this.id)"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
         `
         list.innerHTML += Task
     }
 }
-
-
-
 //function to add task
 function AddTask() {
     title = document.getElementById('tasktitle').value
@@ -161,4 +160,23 @@ function AddTask() {
             }
         })
     }
+}
+function DeleteTask(id){
+ taskId = document.getElementById(id).value
+ urlbyid = deleteTaskurl+taskId
+ fetch(urlbyid,{
+     method: "DELETE",
+     headers: {
+        'Authorization': "bearer " + token,
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+        'Content-Type': 'application/json; charset=UTF-8'
+     }
+ }).then(function (response){
+     if(response.status == 200)
+     {
+        document.getElementById('TaskList').innerHTML = null
+        getlist()
+     }
+ })
 }
