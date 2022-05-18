@@ -1,4 +1,17 @@
-let token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiU3ByaW5nIiwiZXhwIjoxNjUyOTc5NzEzfQ.-vPuCNiUu2dnfSZ2FWkKZldOqZO8r2E8fh5TIw3FATA"
+if(document.cookie == "")
+{
+    document.getElementById('logpanel').style.display = "block"
+    document.getElementById('regpanel').style.display = "none"
+    document.getElementById('mainpage').style.display ="none"
+}
+else{
+    document.getElementById('logpanel').style.display = "none"
+    document.getElementById('regpanel').style.display = "none"
+    document.getElementById('mainpage').style.display ="block"
+}
+
+var today = new Date(); //initialize date var
+
 //end points 
 const Loginurl = 'http://localhost:5003/Controller/login'
 const RegUrl = 'http://localhost:5003/Controller/register-user'
@@ -31,13 +44,23 @@ loginform.addEventListener('submit', function (e) {
             document.getElementById('username').style.border = "1px solid red"
             document.getElementById('password').style.border = "1px solid red"
         }
-        else {
-            token = response.text()
+        else {         
+            CreateCookie(response.text)
+            document.getElementById('logpanel').style.display = "none"
+            document.getElementById('regpanel').style.display = "none"
+            document.getElementById('mainpage').style.display ="block"
         }
     }).then(function (text) {
 
     })
 })
+//fuction to create cookie
+function CreateCookie(authToken)
+{ 
+     timestamp = new Date().getTime();
+     exp = timestamp + (60 * 60 * 24 * 1000 * 1)
+     Document.cookie = authToken+"; expires="+exp+"; max-age="+60*60*24*1+";"
+}
 
 //login registration toggle button
 function OpenReg() {
@@ -76,18 +99,23 @@ RegForn.addEventListener('submit', function (e) {
             alert("Successfully Registers , please login!")
             document.getElementById('regpanel').style.display = "none"
             document.getElementById('logpanel').style.display = "block"
+            document.getElementById('mainpage').style.display ="none"
         }
         return response.text();
     })
 })
 
 //Main File
-getlist() //list calling
+if(document.cookie != "")
+{
+
+}
+//list calling
 Datenow()//date set calling
 //function for getting today date
 function Datenow()
 {
-var today = new Date();
+
 var datetoday = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
 date = `Today's Task ${datetoday}`
 document.getElementById('todaydate').innerHTML = date
@@ -98,7 +126,7 @@ function getlist() {
     fetch(tasklisturl, {
         method: 'GET',
         headers: {
-            'Authorization': "bearer " + token,
+            'Authorization': "bearer " + document.cookie,
             "Access-Control-Allow-Headers": "*",
             "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
             'Content-Type': 'application/json; charset=UTF-8'
@@ -155,7 +183,7 @@ function AddTask() {
         fetch(addtask, {
             method: "POST",
             headers: {
-                'Authorization': "bearer " + token,
+                'Authorization': "bearer " + document.cookie,
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -179,7 +207,7 @@ function DeleteTask(id){
  fetch(urlbyid,{
      method: "DELETE",
      headers: {
-        'Authorization': "bearer " + token,
+        'Authorization': "bearer " + document.cookie,
         "Access-Control-Allow-Headers": "*",
         "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -201,7 +229,7 @@ function ChangeStatus(id)
     fetch(urlbyid,{
         method: "PUT",
         headers: {
-           'Authorization': "bearer " + token,
+           'Authorization': "bearer " + document.cookie,
            "Access-Control-Allow-Headers": "*",
            "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
            'Content-Type': 'application/json; charset=UTF-8'
