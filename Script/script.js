@@ -9,8 +9,8 @@ else{
     document.getElementById('regpanel').style.display = "none"
     document.getElementById('mainpage').style.display ="block"
 }
-console.log(document.cookie)
-var today = new Date(); //initialize date var
+
+
 
 //end points 
 const Loginurl = 'http://localhost:5003/Controller/login'
@@ -58,6 +58,11 @@ loginform.addEventListener('submit', function (e) {
 function CreateCookie(authToken)
 {     
      document.cookie = authToken +";SameSite=None;secure;"
+}
+
+function Logout(){
+document.cookie = " ;SameSite=None;secure;"
+window.location.reload()
 }
 
 //login registration toggle button
@@ -108,14 +113,14 @@ RegForn.addEventListener('submit', function (e) {
 //Main File
 if(document.cookie != "")
 {
-
+getlist()
 }
 //list calling
 Datenow()//date set calling
 //function for getting today date
 function Datenow()
 {
-
+     var today = new Date();
 var datetoday = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
 date = `Today's Task ${datetoday}`
 document.getElementById('todaydate').innerHTML = date
