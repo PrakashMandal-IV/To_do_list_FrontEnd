@@ -66,10 +66,12 @@ function CreateCookie(authToken)
 function OpenReg() {
     document.getElementById('logpanel').style.display = "none"
     document.getElementById('regpanel').style.display = "block"
+    document.getElementById('mainpage').style.display = "none"
 }
 function OpenLogin() {
     document.getElementById('regpanel').style.display = "none"
     document.getElementById('logpanel').style.display = "block"
+    document.getElementById('mainpage').style.display = "none"
 }
 
 //registration script
