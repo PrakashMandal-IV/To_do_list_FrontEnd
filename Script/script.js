@@ -119,15 +119,18 @@ function tasklist(data) {
         taskstatus = data[i].isCompleted
         if (taskstatus) {
             showStatus = "Done"
+            btnwork = "disabled"
         }
         else {
             showStatus = "Pending"
+            btnwork = ""
         }
         var Task = ` <td>${title}</td>
         <td>${task}</td>
-        <td><button type="button" class="btn">${showStatus}</button></td>
+        <td><button type="button" class="btn" btnwork>${showStatus}</button></td>
         <td><button type="button" class="btn" id="${i}"value="${id}" onclick="DeleteTask(this.id)"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
         `
+        
         list.innerHTML += Task
     }
 }
