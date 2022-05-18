@@ -1,0 +1,61 @@
+.container{
+    display: block;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    width: 20em;
+    border-radius: 6px;
+    box-shadow: 2px 2px 4px #000000;
+    
+}
+.login{
+    display: flex;
+    flex-direction:column;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+    font-family: 'Roboto Flex', sans-serif;     
+    color: black; 
+    
+}
+.textbox{ 
+    border: 1px solid rgb(77, 169, 255);
+    width: 80%;
+    height: 30px;
+    text-align: center;
+    border-radius: 5px;     
+}
+.submit{
+    margin-top: 50px;
+    width: 40%;
+    height: 30px;
+}
+.login label{
+    font-size: 18px;
+    margin-top: 20px;
+}
+.login h3{
+    font-weight: 100;
+    font-size: 30px;  
+}
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: blue;
+}
+.regContainer{
+    display:none;
+}
+.pannel{
+   border: none;
+   background: none;
+}
+.regbtn,.logbtn{
+ border: none;
+ background: none;
+ color: blue;
+}
+.regpanel{
+    display: none;
+}
