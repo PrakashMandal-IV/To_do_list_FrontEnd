@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,35 +9,36 @@
     <link rel="stylesheet" href="Style/login.css">
     <script src="Script/script.js" defer></script>
 </head>
+
 <body>
     <div class="container loginpanel" id="logpanel">
-        
+
         <form class="login" id="loginform" action="" method="post">
             <h3 id="title">User Login</h3>
             <label id="username_1">Username</label>
             <input class="textbox" type="text" placeholder="Enter your username" id="username" required>
             <label class="password_l">Password</label>
-            <input class="textbox" type="password" placeholder="Enter your password" id="password" required>        
+            <input class="textbox" type="password" placeholder="Enter your password" id="password" required>
             <button class="submit" type="submit">Login</button>
-            <p>Don't have an account? <button onclick="OpenReg()" type="button" class="regbtn">Create Account</button></p>
-        </form>     
+            <p>Don't have an account? <button onclick="OpenReg()" type="button" class="regbtn">Create Account</button>
+            </p>
+        </form>
     </div>
     <div class="container regpanel" id="regpanel">
-        
         <form class="login" id="registrationform" action="" method="post">
             <h3 id="title">User Register</h3>
             <label id="username_1">Username</label>
-            <input class="textbox" type="text" placeholder="Enter your UserName" id="username" required>
+            <input class="textbox" type="text" placeholder="Enter your UserName" id="regusername" required>
             <label id="username_1">First Name</label>
-            <input class="textbox" type="text" placeholder="Enter your First Name" id="firstname" required>
+            <input class="textbox" type="text" placeholder="Enter your First Name" id="regfirstname" required>
             <label id="username_1">LastName</label>
-            <input class="textbox" type="text" placeholder="Enter your Last Name" id="lastname" required>
+            <input class="textbox" type="text" placeholder="Enter your Last Name" id="reglastname" required>
             <label class="password_l">Password</label>
-            <input class="textbox" type="password" placeholder="Enter your password" id="password" required>        
+            <input class="textbox" type="password" placeholder="Enter your password" id="regpassword" required>
             <button class="submit" type="submit">Register</button>
             <p>Already have an account? <button onclick="OpenLogin()" type="button" class="logbtn">Login</a></p>
         </form>
-    
     </div>
 </body>
+
 </html>

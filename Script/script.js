@@ -54,4 +54,15 @@ function OpenLogin()
 //registration script
 const RegForn = document.getElementById('registrationform')
 RegForn.addEventListener('submit',function (e){
+    e.preventDefault()
+    username = document.getElementById('regusername').value
+    firstname = document.getElementById('regfirstname').value
+    lastname = document.getElementById('reglastname').value
+    password = document.getElementById('regpassword').value
+    data = {
+        "username": `${username}`,
+        "firstName": `${firstname}`,
+        "lastName": `${lastname}`,
+        "password": `${password}`
+      }
 })
