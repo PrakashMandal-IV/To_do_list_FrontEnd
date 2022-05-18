@@ -5,6 +5,7 @@ const RegUrl = 'http://localhost:5003/Controller/register-user'
 const tasklisturl = 'http://localhost:5003/Controller/get-today-task'
 const addtask = 'http://localhost:5003/Controller/add-task'
 const deleteTaskurl = "http://localhost:5003/Controller/delete-task/"
+const changestatusurl = "http://localhost:5003/Controller/update-status/"
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e) {
@@ -127,10 +128,9 @@ function tasklist(data) {
         }
         var Task = ` <td>${title}</td>
         <td>${task}</td>
-        <td><button type="button" class="btn" btnwork>${showStatus}</button></td>
-        <td><button type="button" class="btn" id="${i}"value="${id}" onclick="DeleteTask(this.id)"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
+        <td><button type="button" class="btn"  id="status${i}"value="${id}" onclick="ChangeStatus(this.id)"  btnwork> ${showStatus}</button></td>
+        <td><button type="button" class="btn" id="delete${i}"value="${id}" onclick="DeleteTask(this.id)"><img class="trashicon" src="Images/delete.png" alt="Delete"></button></td>
         `
-        
         list.innerHTML += Task
     }
 }
@@ -191,4 +191,25 @@ function DeleteTask(id){
         getlist()
      }
  })
+}
+
+//function to update status
+function ChangeStatus(id)
+{
+    taskId = document.getElementById(id).value
+    urlbyid = changestatusurl+taskId
+    fetch(urlbyid,{
+        method: "PUT",
+        headers: {
+           'Authorization': "bearer " + token,
+           "Access-Control-Allow-Headers": "*",
+           "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
+           'Content-Type': 'application/json; charset=UTF-8'
+        }
+    }).then(function (response) {
+        if(response.status == 200)
+        {
+            document.getElementById(id).innerHTML = "Done"
+        }
+    })
 }
