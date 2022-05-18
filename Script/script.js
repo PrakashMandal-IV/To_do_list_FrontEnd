@@ -9,7 +9,7 @@ else{
     document.getElementById('regpanel').style.display = "none"
     document.getElementById('mainpage').style.display ="block"
 }
-
+console.log(document.cookie)
 var today = new Date(); //initialize date var
 
 //end points 
@@ -44,22 +44,20 @@ loginform.addEventListener('submit', function (e) {
             document.getElementById('username').style.border = "1px solid red"
             document.getElementById('password').style.border = "1px solid red"
         }
-        else {         
-            CreateCookie(response.text)
+        else {                      
             document.getElementById('logpanel').style.display = "none"
             document.getElementById('regpanel').style.display = "none"
             document.getElementById('mainpage').style.display ="block"
         }
+        return response.text()
     }).then(function (text) {
-
+       CreateCookie(text)
     })
 })
 //fuction to create cookie
 function CreateCookie(authToken)
-{ 
-     timestamp = new Date().getTime();
-     exp = timestamp + (60 * 60 * 24 * 1000 * 1)
-     Document.cookie = authToken+"; expires="+exp+"; max-age="+60*60*24*1+";"
+{     
+     document.cookie = authToken +";SameSite=None;secure;"
 }
 
 //login registration toggle button
