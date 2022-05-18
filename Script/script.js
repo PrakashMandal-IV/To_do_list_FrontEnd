@@ -1,5 +1,7 @@
 let token;
-
+//end points 
+const Loginurl = 'http://localhost:5003/Controller/login'
+const RegUrl = 'http://localhost:5003/Controller/register-user'
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e){
@@ -7,7 +9,7 @@ loginform.addEventListener('submit', function (e){
 
     username = document.getElementById('username').value
     password = document.getElementById('password').value
-    const Loginurl = 'http://localhost:5003/Controller/login'
+    
     data = {
         userName: `${username}`,
         password: `${password}`
@@ -52,5 +54,4 @@ function OpenLogin()
 //registration script
 const RegForn = document.getElementById('registrationform')
 RegForn.addEventListener('submit',function (e){
-    
 })
