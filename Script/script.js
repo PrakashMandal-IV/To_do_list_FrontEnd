@@ -82,6 +82,15 @@ RegForn.addEventListener('submit', function (e) {
 
 //Main File
 getlist() //list calling
+Datenow()//date set calling
+//function for getting today date
+function Datenow()
+{
+var today = new Date();
+var datetoday = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+date = `Today's Task ${datetoday}`
+document.getElementById('todaydate').innerHTML = date
+}
 //fetch task list
 function getlist() {
 
