@@ -62,4 +62,8 @@ a, a:hover, a:focus, a:active {
 .regpanel{
     display: none;
 }
+.logout{
+   
+    right: 0;
+}
 
