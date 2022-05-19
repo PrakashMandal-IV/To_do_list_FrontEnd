@@ -3,13 +3,12 @@ if(document.cookie == "")
     document.getElementById('logpanel').style.display = "block"
     document.getElementById('regpanel').style.display = "none"
     document.getElementById('mainpage').style.display ="none"
-}
+} 
 else{
     document.getElementById('logpanel').style.display = "none"
     document.getElementById('regpanel').style.display = "none"
     document.getElementById('mainpage').style.display ="block"
 }
-
 
 
 //end points 
@@ -53,18 +52,17 @@ loginform.addEventListener('submit', function (e) {
         return response.text()
     }).then(function (text) {
        CreateCookie(text)
-       getlist()
-       GetUser()
+       window.location.reload()
     })
 })
 //fuction to create cookie
 function CreateCookie(authToken)
 {     
-     document.cookie = authToken +";SameSite=None;secure;"
+     document.cookie = "name ="+authToken +";max-age ="+60*60*24*1+";SameSite=None;secure;"
 }
 
 function Logout(){
-document.cookie = " ;SameSite=None;secure;"
+document.cookie = "name" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 window.location.reload()
 }
 
@@ -114,6 +112,12 @@ RegForn.addEventListener('submit', function (e) {
 })
 
 //Main File
+if(document.cookie != "")
+{
+token =  document.cookie.replace("name=","")
+getlist()
+GetUser()
+}
 //list calling
 Datenow()//date set calling
 //function for getting today date
@@ -130,7 +134,7 @@ function getlist() {
     fetch(tasklisturl, {
         method: 'GET',
         headers: {
-            'Authorization': "bearer " + document.cookie,
+            'Authorization': "bearer " + token,
             "Access-Control-Allow-Headers": "*",
             "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
             'Content-Type': 'application/json; charset=UTF-8'
@@ -172,7 +176,7 @@ function GetUser()
     fetch(getuerurl,{
         method: "GET",
         headers: {
-            'Authorization': "bearer " + document.cookie,
+            'Authorization': "bearer " + token,
             "Access-Control-Allow-Headers": "*",
             "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
             'Content-Type': 'application/json; charset=UTF-8'
@@ -204,7 +208,7 @@ function AddTask() {
         fetch(addtask, {
             method: "POST",
             headers: {
-                'Authorization': "bearer " + document.cookie,
+                'Authorization': "bearer " + token,
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -228,7 +232,7 @@ function DeleteTask(id){
  fetch(urlbyid,{
      method: "DELETE",
      headers: {
-        'Authorization': "bearer " + document.cookie,
+        'Authorization': "bearer " + token,
         "Access-Control-Allow-Headers": "*",
         "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -250,7 +254,7 @@ function ChangeStatus(id)
     fetch(urlbyid,{
         method: "PUT",
         headers: {
-           'Authorization': "bearer " + document.cookie,
+           'Authorization': "bearer " + token,
            "Access-Control-Allow-Headers": "*",
            "Access-Control-Allow-Methods": 'OPTIONS,POST,GET',
            'Content-Type': 'application/json; charset=UTF-8'
