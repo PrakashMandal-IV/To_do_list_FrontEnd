@@ -10,15 +10,15 @@ else{
     document.getElementById('mainpage').style.display ="block"
 }
 
-
+host = 'localhost:5003'  // CHANGE THE DOMANE OF THE BACKEND IF NEED
 //end points 
-const Loginurl = 'http://localhost:5003/Controller/login'
-const RegUrl = 'http://localhost:5003/Controller/register-user'
-const tasklisturl = 'http://localhost:5003/Controller/get-today-task'
-const addtask = 'http://localhost:5003/Controller/add-task'
-const deleteTaskurl = "http://localhost:5003/Controller/delete-task/"
-const changestatusurl = "http://localhost:5003/Controller/update-status/"
-const getuerurl = "http://localhost:5003/Controller/get-user"
+const Loginurl = 'http://'+host+'/Controller/login'
+const RegUrl = 'http://'+host+'/Controller/register-user'
+const tasklisturl = 'http://'+host+'/Controller/get-today-task'
+const addtask = 'http://'+host+'/Controller/add-task'
+const deleteTaskurl = 'http://'+host+'/Controller/delete-task/'
+const changestatusurl = 'http://'+host+'/Controller/update-status/'
+const getuerurl = 'http://'+host+'/Controller/get-user'
 //Login Page script
 const loginform = document.getElementById('loginform')
 loginform.addEventListener('submit', function (e) {
